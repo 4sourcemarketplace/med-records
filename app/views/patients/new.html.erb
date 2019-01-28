@@ -1,0 +1,158 @@
+<% require 'pry' %>
+<h2>Enter a New Patient</h2>
+<%= form_for(@patient) do |f| %>
+  <% if @patient.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@patient.errors.count, "error") %> prohibited this post from being saved:</h2>
+      <ul>
+      <% @patient.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <h3>Facility</h3>
+    <% Facility.all.each do |facility| %>
+    <%=  facility.name %>
+    <%= f.check_box :facility_id %>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <%= f.label :first_name %><br>
+    <%= f.text_field :first_name %>
+  </div>
+  <div class="form-group">
+    <%= f.label :middle_name %><br>
+    <%= f.text_field :middle_name %>
+  </div>
+  <div class="form-group">
+    <%= f.label :last_name %><br>
+    <%= f.text_field :last_name %>
+  </div>
+  <div class="form-group">
+    <%= f.label :dob %><br>
+    <%= f.date_field :dob %>
+  </div>
+  <div class="form-group">
+    <%= f.label :mr %><br>
+    <%= f.text_field :mr %>
+  </div>
+  <div class="form-group">
+    <h4>Gender</h4>
+      <%= label :gender, :male %>
+      <%= check_box :gender,:male %>
+      <%= label :gender,:female %>
+      <%= check_box :gender,:female %>
+      <%= label :gender,:other %>
+      <%= check_box :gender,:other %>
+  </div>
+  <div class="form-group">
+    <h3>Admissions to Hospital</h3>
+    <%= f.fields_for :admissions, @patient.admissions.build do |admission_fields| %>
+    <%= admission_fields.fields_for :observations, @admission.observations.build do |obv_fields| %>
+    <h6> Patient Observations </h6>
+
+    <%= obv_fields.text_area :description %><br>
+    <h6> Patient Admission Date </h6>
+
+    <%= obv_fields.date_field :moment %><br>
+    <% end %>
+    <h6> Patient Symptoms During Admission </h6>
+    <%= admission_fields.fields_for :symptoms, @admission.symptoms.build do |symp_fields| %>
+    <%= symp_fields.text_area :description %><br>
+    <% end %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <h3> Allergies </h3>
+    <%= f.fields_for :allergies, @patient.allergies.build do |allergy_fields| %>
+    <%= allergy_fields.text_area :description, placeholder: "Add Allergy Here" %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <h3>Medications</h3>
+    <%= f.fields_for :med_orders, @patient.med_orders.build do |medication_fields| %>
+    <%= medication_fields.text_area :name, placeholder: "Add Medication Here" %>
+    <h6>Medication Units</h6>
+    <% MedOrder.mass_units.each do |u| %>
+    <%= label :unit, u[0] %>
+    <%= check_box :unit, :u %>
+    <% end %><br>
+    <h6>Medication Routes</h6>
+    <% MedOrder.medication_routes.each do |r| %>
+    <%= label :route, r[0] %>
+    <%= check_box :route, :r %>
+    <% end %>
+    <h6>Medication Dosages</h6>
+    <%= label :dosage, :dosage %>
+    <%= medication_fields.number_field :dosage, :step => 0.01 %><p>MG</p>
+    <%= label :dosage, :dosage2 %>
+    <%= medication_fields.number_field :dosage2, :step => 0.01 %><p>MG</p>
+    <%= label :dosage, :dosage3 %>
+    <%= medication_fields.number_field :dosage3, :step => 0.01%><p>MG</p>
+    <%= label :dosage, :dosage4 %>
+    <%= medication_fields.number_field :dosage4, :step => 0.01 %><p>MG</p>
+  <%= label :dosage5, :dosage5 %>
+    <%=  medication_fields.number_field :dosage5, :step => 0.01 %><p>MG</p>
+    <h6>Medication Frequency</h6>
+    <%= f.fields_for :order_freqs, @med_order.order_freqs.build do |ord| %>
+    <%= ord.text_area :value, placeholder: "Medication Order Frequency" %>
+    <h6>Medication Refill Frequency </h6>
+    <%= label :freq_unit, :hour %>
+    <%= check_box :freq_unit, :hour %>
+    <% end %>
+    <% end %>
+  </div>
+
+  <div>
+</div>
+
+  <div class="form-group">
+    <h3> Chronic Conditions </h3>
+    <%= f.fields_for :diagnoses, @patient.diagnoses.build do |chron_fields| %>
+    <h6> Chronic Condition Description </h6>
+    <%= chron_fields.text_area :description, placeholder: "Add Chronic Conditions Here" %>
+    <h6>Chronic Condition Coding Systen</h6>
+    <%= chron_fields.text_field :coding_systen, placeholder: "Chronic Condition Coding Systen" %>
+    <h6>Chronic Condition Coding</h6>
+    <%= chron_fields.text_field :code, placeholder: " Chronic Condition Code" %>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <h3> Diagnoses </h3>
+    <%= f.fields_for :diagnoses, @patient.diagnoses.build do |chron_fields| %>
+        <h6>Diagnoses Description</h6>
+    <%= chron_fields.text_area :description, placeholder: "Add Diagnoses Here" %>
+      <h6>Diagnoses Coding Systen</h6>
+    <%= chron_fields.text_field :coding_systen, placeholder: "Diagnoses Coding Systen" %>
+        <h6>Diagnoses Coding</h6>
+    <%= chron_fields.text_field :code, placeholder: "Diagnoses Code" %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <h3>Treatments</h3>
+    <%= f.fields_for :treatments, @patient.treatments.build do |treatment_fields| %>
+    <h6> Treatment Description </h6>
+    <%= treatment_fields.text_area :description, placeholder: "Add Treatment Here" %>
+    <h6> Treatment Priority </h6>
+    <%= treatment_fields.text_area :necessity, placeholder: "Add Treatment Priority Here" %>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <h3> Diagnostic Procedures </h3>
+    <%= f.fields_for :diag_procs, @patient.diag_procs.build do |diag_fields| %>
+    <h6>Diagnostic Procedures Description</h6>
+    <%= diag_fields.text_area :description, placeholder: "Add Diagnostic Procedures Here" %>
+    <h6>Date of Diagnostic Procedure Occurence </h6>
+    <%= diag_fields.date_field :moment %>
+    <% end %>
+  </div>
+  <br>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

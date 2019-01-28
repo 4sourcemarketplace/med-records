@@ -1,0 +1,59 @@
+<% require 'pry' %>
+<div class="header">
+<h1>Emergency Transfer Summary (Form 34L-D)</h1>
+</div>
+<h2> Transferring Facility</h2>
+<h3><%= @facility_name %></h3>
+<div class="panel panel-default">
+<div class="panel-body">
+<h2>Patient Information </h2>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-body">
+<h3>First Name </h3>
+<%= @first_name %>
+</div>
+<div class="panel-body">
+<h3>Middle Name </h3>
+<%= @middle_name %>
+</div>
+<div class="panel-body">
+<h3>Last Name </h3>
+<%= @last_name %>
+</div>
+<div class="panel-body">
+<h3>Medical Record</h3>
+<%= @medical_record %>
+</div>
+</div>
+<div class="foxtrot">
+<h2>Summary </h2>
+<p>
+  This <%= @patient_age %> years old <%= @patient_gender %> was admitted to
+  <%= @facility_name %> on
+
+  <%= @patient_admission_date %>  at
+  <%= @patient_admission_time  %>
+  due to <%= @patient_admission_diagnoses %>
+ ,
+  The observed symptoms on admission were
+  <%= @patient_admission_symptoms_description  %>.
+  <%= @patient_admission_observations_description %>.
+  Upon asking about known allergies, the patient
+  disclosed <%= @patient_allergies_description %>.
+  Upon asking about chronic conditions, the patient disclosed
+  <%= @patient_chronic_conditions_description %>.
+  The patient was administered with
+   <%= @patient_medications_names %> <%= @patient_medications_dosage1 %><%=@unit%>,
+  <%= @patient_medications_dosage2 %><%=@unit%>, <%= @patient_medications_dosage3%><%=@unit%>,
+  <%= @patient_medications_dosage4 %><%=@unit%>, <%= @patient_medications_dosage5 %><%=@unit%>,
+  respectively via <%= @patient_medications_route %> to <%= @patient_medications_frequency %>
+  <%= @patient_medications_necessity  %>
+  The staff performed
+  <%= @patient_diagnostic_procedures_description %>
+  at <%= @patient_disagnostic_procedures_moment %>,
+  revealing <%= @patient_diagnosis_description %>.
+  Our team proceeded to <%= @patient_treatments_description  %> to <%=  @patient_treatments_necessity %>.
+</p>
+</div>
